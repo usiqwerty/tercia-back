@@ -1,9 +1,11 @@
 import os
 from typing import Iterable
 
-from sqlalchemy import create_engine, Engine, Connection, select, insert
+import sqlalchemy
+from sqlalchemy import create_engine, Engine, Connection, select, insert, table, Table
+from sqlalchemy.orm import sessionmaker
 
-from course import Course, CourseRequestSchema
+from course import Course, CourseRequestSchema, Base
 
 HOSTNAME = 'localhost'
 PASSWORD = os.environ["POSTGRES_PASS"]
@@ -12,19 +14,29 @@ USERNAME = 'terciadb'
 
 class Database:
     engine: Engine
-    cursor: Connection
+    # cursor: Connection
+    session: sqlalchemy.orm.Session
+    table: Table
 
     def __init__(self):
         pass
 
     def connect(self):
         self.engine = create_engine(f'postgresql://{USERNAME}:{PASSWORD}@{HOSTNAME}/terciadb')  # +psycopg2
-        self.cursor = self.engine.connect()
+        Base.metadata.create_all(self.engine)
+        Session = sessionmaker(bind=self.engine)
+        # self.cursor = self.engine.connect()
+        self.session = Session()
+
+        self.table = Base.metadata.tables["courses"]
 
     def get_courses(self) -> Iterable[CourseRequestSchema]:
-        for course in self.cursor.execute(select(Course)).scalars():
+        query = select(Course)
+        for course in self.session.execute(query).scalars():
             yield CourseRequestSchema(id=course.id, name=course.name, cover_url=course.cover_url)
 
     def add_course(self, course: CourseRequestSchema):
-        self.cursor.execute(insert(Course(name=course.name, cover_url=course.cover_url)))
-        self.cursor.commit()
+        # query = insert().values(name=course.name, cover_url=course.cover_url)
+
+        self.session.add(Course(name=course.name, cover_url=course.cover_url))
+        self.session.commit()
