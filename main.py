@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 
-from course import Course, CourseRequestSchema
+from course import CourseRequestSchema
 from dblevel import Database
+from lesson import LessonRequestSchema
 
 app = FastAPI()
 db = Database()
@@ -17,6 +18,16 @@ async def root():
 async def add_course(course: CourseRequestSchema):
     db.add_course(course)
 
+
 @app.patch('/edit-course')
 async def edit_course(course: CourseRequestSchema):
     db.edit_course(course)
+
+
+@app.post('/add-lesson')
+async def add_lesson(lesson: LessonRequestSchema):
+    db.add_lesson(lesson)
+
+@app.get('/get-lesson')
+async def get_lesson(lesson_id: int):
+    return db.get_lesson(lesson_id)

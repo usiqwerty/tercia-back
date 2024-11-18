@@ -6,6 +6,7 @@ from sqlalchemy import create_engine, Engine, select
 from sqlalchemy.orm import sessionmaker
 
 from course import Course, CourseRequestSchema, Base
+from lesson import LessonRequestSchema, Lesson
 
 HOSTNAME = 'localhost'
 PASSWORD = os.environ["POSTGRES_PASS"]
@@ -40,3 +41,14 @@ class Database:
         old_course.name = course.name
         old_course.cover_url = course.cover_url
         self.session.commit()
+
+    def add_lesson(self, lesson: LessonRequestSchema):
+        sql_lesson = Lesson(id=lesson.id, title=lesson.title, video_url=lesson.video_url, course_id=lesson.course_id)
+        self.session.add(sql_lesson)
+        self.session.commit()
+
+    def get_lesson(self, lesson_id: int):
+        query = select(Lesson).where(Lesson.id == lesson_id)
+        lesson = self.session.execute(query).scalars().first()
+        return LessonRequestSchema(id=lesson.id, title=lesson.title, video_url=lesson.video_url, course_id=lesson.course_id)
+
