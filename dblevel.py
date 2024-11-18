@@ -43,7 +43,7 @@ class Database:
         self.session.commit()
 
     def add_lesson(self, lesson: LessonRequestSchema):
-        sql_lesson = Lesson(id=lesson.id, title=lesson.title, video_url=lesson.video_url, course_id=lesson.course_id)
+        sql_lesson = Lesson(title=lesson.title, video_url=lesson.video_url, course_id=lesson.course_id)
         self.session.add(sql_lesson)
         self.session.commit()
 
