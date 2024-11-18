@@ -28,6 +28,12 @@ async def edit_course(course: CourseRequestSchema):
 async def add_lesson(lesson: LessonRequestSchema):
     db.add_lesson(lesson)
 
+
 @app.get('/get-lesson')
 async def get_lesson(lesson_id: int):
     return db.get_lesson(lesson_id)
+
+
+@app.get('/get-course-lessons')
+async def get_course_lessons(lesson_id: int):
+    return list(db.get_course_lessons(lesson_id))
