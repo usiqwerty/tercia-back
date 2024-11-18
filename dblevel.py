@@ -33,3 +33,10 @@ class Database:
     def add_course(self, course: CourseRequestSchema):
         self.session.add(Course(name=course.name, cover_url=course.cover_url))
         self.session.commit()
+
+    def edit_course(self, course: CourseRequestSchema):
+        old_course_query = select(Course).where(Course.id == course.id)
+        old_course = self.session.execute(old_course_query).scalars().first()
+        old_course.name = course.name
+        old_course.cover_url = course.cover_url
+        self.session.commit()

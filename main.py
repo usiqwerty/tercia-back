@@ -14,5 +14,9 @@ async def root():
 
 
 @app.post("/add-course")
-async def root(course: CourseRequestSchema):
+async def add_course(course: CourseRequestSchema):
     db.add_course(course)
+
+@app.patch('/edit-course')
+async def edit_course(course: CourseRequestSchema):
+    db.edit_course(course)
