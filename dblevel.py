@@ -55,6 +55,6 @@ class Database:
     def get_course_lessons(self, course_id:int):
         query = select(Lesson).where(Lesson.course_id == course_id)
         for lesson in self.session.execute(query).scalars():
-            yield return LessonRequestSchema(id=lesson.id, title=lesson.title, video_url=lesson.video_url,
+            yield LessonRequestSchema(id=lesson.id, title=lesson.title, video_url=lesson.video_url,
                                    course_id=lesson.course_id)
 
