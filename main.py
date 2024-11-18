@@ -35,5 +35,5 @@ async def get_lesson(lesson_id: int):
 
 
 @app.get('/get-course-lessons')
-async def get_course_lessons(lesson_id: int):
-    return list(db.get_course_lessons(lesson_id))
+async def get_course_lessons(course_id: int):
+    return list(db.get_course_lessons(course_id))
