@@ -1,4 +1,7 @@
 from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+from flask import request
 
 from course import CourseRequestSchema
 from dblevel import Database
@@ -6,6 +9,7 @@ from lesson import LessonRequestSchema
 
 app = FastAPI()
 db = Database()
+templates = Jinja2Templates(directory="templates")
 db.connect()
 
 
@@ -37,3 +41,10 @@ async def get_lesson(lesson_id: int):
 @app.get('/get-course-lessons')
 async def get_course_lessons(course_id: int):
     return list(db.get_course_lessons(course_id))
+
+
+@app.get('/editor', response_class=HTMLResponse)
+async def editor_page():
+    return templates.TemplateResponse(
+        name="editor.html"
+)
