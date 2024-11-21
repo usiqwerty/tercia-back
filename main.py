@@ -39,3 +39,8 @@ async def get_lesson(lesson_id: int):
 @app.get('/get-course-lessons')
 async def get_course_lessons(course_id: int):
     return list(db.get_course_lessons(course_id))
+
+
+@app.patch('/edit-lesson')
+async def edit_lesson(lesson: LessonRequestSchema):
+    db.edit_lesson(lesson)
