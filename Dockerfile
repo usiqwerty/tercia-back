@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 8000
 
 # Команда для запуска приложения
-CMD ["gunicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "-k", "uvicorn.workers.UvicornWorker"]
+CMD ["python", "-m", "gunicorn", "main:app", "-b", "0.0.0.0:8000", "-k", "uvicorn.workers.UvicornWorker"]
