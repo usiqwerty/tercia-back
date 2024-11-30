@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from sqlalchemy import Column, Integer, Sequence, String
 from sqlalchemy.orm import declarative_base
 
@@ -14,7 +14,7 @@ class Lesson(Base):
 
 
 class LessonRequestSchema(BaseModel):
-    title: str
-    video_url: str | None
+    title: str = Field("Урок без темы", max_length=64)
+    video_url: str | None = Field(None, max_length=512)
     id: int = None
     course_id :int|None = None

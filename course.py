@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from sqlalchemy import Column, Integer, Sequence, String
 from sqlalchemy.orm import declarative_base
 
@@ -13,6 +13,6 @@ class Course(Base):
 
 
 class CourseRequestSchema(BaseModel):
-    name: str
-    cover_url: str | None
+    name: str = Field("Безымянный курс", max_length=64)
+    cover_url: str | None = Field(None, max_length=256)
     id: int = None
