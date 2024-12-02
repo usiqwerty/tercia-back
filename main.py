@@ -5,17 +5,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from course import CourseRequestSchema
 from dblevel import Database
 from lesson import LessonRequestSchema
-origins = [
-    "http://localhost:3000",
-    "http://130.193.58.142:8000"
-    "http://130.193.58.142"
-]
-
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
