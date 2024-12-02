@@ -1,11 +1,25 @@
 from fastapi import FastAPI
 from fastapi.templating import Jinja2Templates
+from fastapi.middleware.cors import CORSMiddleware
 
 from course import CourseRequestSchema
 from dblevel import Database
 from lesson import LessonRequestSchema
+origins = [
+    "http://localhost:3000",
+    "http://130.193.58.142:8000"
+]
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 db = Database()
 templates = Jinja2Templates(directory="templates")
 db.connect()
