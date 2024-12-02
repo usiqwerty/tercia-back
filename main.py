@@ -8,6 +8,7 @@ from lesson import LessonRequestSchema
 origins = [
     "http://localhost:3000",
     "http://130.193.58.142:8000"
+    "http://130.193.58.142"
 ]
 
 app = FastAPI()
