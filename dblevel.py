@@ -43,20 +43,22 @@ class Database:
         self.session.commit()
 
     def add_lesson(self, lesson: LessonRequestSchema):
-        sql_lesson = Lesson(title=lesson.title, video_url=lesson.video_url, course_id=lesson.course_id)
+        sql_lesson = Lesson(title=lesson.title, video_url=lesson.video_url, course_id=lesson.course_id,
+                            number=lesson.number)
         self.session.add(sql_lesson)
         self.session.commit()
 
     def get_lesson(self, lesson_id: int):
         query = select(Lesson).where(Lesson.id == lesson_id)
         lesson = self.session.execute(query).scalars().first()
-        return LessonRequestSchema(id=lesson.id, title=lesson.title, video_url=lesson.video_url, course_id=lesson.course_id)
+        return LessonRequestSchema(id=lesson.id, title=lesson.title, video_url=lesson.video_url,
+                                   course_id=lesson.course_id, number=lesson.number)
 
-    def get_course_lessons(self, course_id:int):
+    def get_course_lessons(self, course_id: int):
         query = select(Lesson).where(Lesson.course_id == course_id)
         for lesson in self.session.execute(query).scalars():
             yield LessonRequestSchema(id=lesson.id, title=lesson.title, video_url=lesson.video_url,
-                                   course_id=lesson.course_id)
+                                      course_id=lesson.course_id)
 
     def edit_lesson(self, lesson: LessonRequestSchema):
         old_lesson_query = select(Lesson).where(Lesson.id == lesson.id)
