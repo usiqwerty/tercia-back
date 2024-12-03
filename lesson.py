@@ -11,10 +11,12 @@ class Lesson(Base):
     title = Column(String(64), nullable=False)
     video_url = Column(String(512), nullable=True)
     course_id = Column(Integer, nullable=False)
+    number = Column(Integer, nullable=False)
 
 
 class LessonRequestSchema(BaseModel):
     title: str = Field("Урок без темы", max_length=64)
     video_url: str | None = Field(None, max_length=512)
     id: int = None
-    course_id :int|None = None
+    course_id: int | None = None
+    number: int

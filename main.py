@@ -47,7 +47,7 @@ async def get_lesson(lesson_id: int):
 
 @app.get('/get-course-lessons')
 async def get_course_lessons(course_id: int):
-    return list(db.get_course_lessons(course_id))
+    return list(sorted(db.get_course_lessons(course_id), key=lambda c: c.number))
 
 
 @app.patch('/edit-lesson')
