@@ -58,13 +58,14 @@ class Database:
         query = select(Lesson).where(Lesson.course_id == course_id)
         for lesson in self.session.execute(query).scalars():
             yield LessonRequestSchema(id=lesson.id, title=lesson.title, video_url=lesson.video_url,
-                                      course_id=lesson.course_id)
+                                      course_id=lesson.course_id, number=lesson.number)
 
     def edit_lesson(self, lesson: LessonRequestSchema):
         old_lesson_query = select(Lesson).where(Lesson.id == lesson.id)
         old_lesson = self.session.execute(old_lesson_query).scalars().first()
         old_lesson.title = lesson.title
         old_lesson.video_url = lesson.video_url
+        old_lesson.number = lesson.number
         self.session.commit()
 
     def delete_course(self, course_id: int):
