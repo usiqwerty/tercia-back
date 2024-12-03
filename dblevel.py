@@ -2,7 +2,7 @@ import os
 from typing import Iterable
 
 import sqlalchemy
-from sqlalchemy import create_engine, Engine, select
+from sqlalchemy import create_engine, Engine, select, delete
 from sqlalchemy.orm import sessionmaker
 
 from course import Course, CourseRequestSchema, Base
@@ -63,4 +63,14 @@ class Database:
         old_lesson = self.session.execute(old_lesson_query).scalars().first()
         old_lesson.title = lesson.title
         old_lesson.video_url = lesson.video_url
+        self.session.commit()
+
+    def delete_course(self, course_id: int):
+        delete_course_query = delete(Course).where(Course.id == course_id)
+        self.session.execute(delete_course_query)
+        self.session.commit()
+
+    def delete_lesson(self, lesson_id: int):
+        delete_lesson_query = delete(Lesson).where(Lesson.id == lesson_id)
+        self.session.execute(delete_lesson_query)
         self.session.commit()

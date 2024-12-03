@@ -53,3 +53,13 @@ async def get_course_lessons(course_id: int):
 @app.patch('/edit-lesson')
 async def edit_lesson(lesson: LessonRequestSchema):
     db.edit_lesson(lesson)
+
+
+@app.delete("/delete-course")
+async def delete_course(course_id: int):
+    db.delete_course(course_id)
+
+
+@app.delete("/delete-lesson")
+async def delete_lesson(lesson_id: int):
+    db.delete_course(lesson_id)
