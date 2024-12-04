@@ -77,3 +77,12 @@ class Database:
         delete_lesson_query = delete(Lesson).where(Lesson.id == lesson_id)
         self.session.execute(delete_lesson_query)
         self.session.commit()
+
+    def save_lessons(self, course_id: int, lessons: list[LessonRequestSchema]):
+        delete_query = delete(Lesson).where(Lesson.course_id == course_id)
+        self.session.execute(delete_query)
+        for lesson in lessons:
+            sql_lesson = Lesson(title=lesson.title, video_url=lesson.video_url, course_id=lesson.course_id,
+                                number=lesson.number)
+            self.session.add(sql_lesson)
+        self.session.commit()

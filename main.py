@@ -63,3 +63,7 @@ async def delete_course(course_id: int):
 @app.delete("/delete-lesson")
 async def delete_lesson(lesson_id: int):
     db.delete_course(lesson_id)
+
+@app.put("/save-course-lessons")
+async def save_course_lessons(course_id: int, lessons: list[LessonRequestSchema]):
+    db.save_lessons(course_id, lessons)
