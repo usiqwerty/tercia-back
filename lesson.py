@@ -1,6 +1,8 @@
-from pydantic import BaseModel, Field
+from pydantic import Field
 from sqlalchemy import Column, Integer, Sequence, String
 from sqlalchemy.orm import declarative_base
+
+from camel_case_model import CamelCaseModel
 
 Base = declarative_base()
 
@@ -14,7 +16,7 @@ class Lesson(Base):
     number = Column(Integer, nullable=False)
 
 
-class LessonRequestSchema(BaseModel):
+class LessonRequestSchema(CamelCaseModel):
     title: str = Field("Урок без темы", max_length=64)
     video_url: str | None = Field(None, max_length=512)
     id: int = None

@@ -1,6 +1,8 @@
-from pydantic import BaseModel, field_validator
+from pydantic import field_validator
 from sqlalchemy import Column, Integer, Sequence, String
 from sqlalchemy.orm import declarative_base
+
+from camel_case_model import CamelCaseModel
 
 Base = declarative_base()
 
@@ -12,7 +14,7 @@ class Course(Base):
     cover_url = Column(String(256), nullable=True)
 
 
-class CourseRequestSchema(BaseModel):
+class CourseRequestSchema(CamelCaseModel):
     name: str
     cover_url: str | None
     id: int = None
