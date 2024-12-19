@@ -3,7 +3,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
 
 from course import CourseRequestSchema
-from dblevel import Database
+from database import Database
 from lesson import LessonRequestSchema
 app = FastAPI()
 
